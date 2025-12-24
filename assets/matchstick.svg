@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="260" viewBox="0 0 40 260" role="img" aria-label="Allumette verticale">
+  <defs>
+    <!-- Bois -->
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D2A679"></stop>
+      <stop offset="50%" stop-color="#C6925D"></stop>
+      <stop offset="100%" stop-color="#B57A3A"></stop>
+    </linearGradient>
+
+    <!-- Tête -->
+    <radialGradient id="head" cx="40%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#FFB36B"></stop>
+      <stop offset="45%" stop-color="#E65A3A"></stop>
+      <stop offset="100%" stop-color="#B02A2A"></stop>
+    </radialGradient>
+  </defs>
+
+  <!-- Tige -->
+  <rect x="14" y="40" width="12" height="200" rx="6" fill="url(#wood)" stroke="#8A5A2B" stroke-width="1.5"></rect>
+
+  <!-- Veines du bois -->
+  <path d="M20 60 C16 90, 24 130, 20 170" fill="none" stroke="#8A5A2B" stroke-opacity="0.25" stroke-width="1"></path>
+  <path d="M22 80 C18 120, 26 160, 22 200" fill="none" stroke="#8A5A2B" stroke-opacity="0.18" stroke-width="1"></path>
+
+  <!-- Tête de l'allumette -->
+  <ellipse cx="20" cy="28" rx="14" ry="16" fill="url(#head)" stroke="#7A1E1E" stroke-width="1.5"></ellipse>
+
+  <!-- Reflet -->
+  <ellipse cx="16" cy="22" rx="4" ry="5" fill="#FFFFFF" opacity="0.35"></ellipse>
+</svg>
