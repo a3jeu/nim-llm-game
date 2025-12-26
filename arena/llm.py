@@ -6,8 +6,14 @@ from groq import Groq
 from dotenv import load_dotenv
 import logging
 import time
-from typing import Dict, Type, Self, List
+from typing import Dict, Type, List
 import os
+
+# Pour la compatibilité Python 3.9
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 load_dotenv(override=True)
 

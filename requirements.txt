@@ -5,3 +5,4 @@ anthropic
 gradio
 groq>=0.33.0
 google-generativeai>=0.8.5
+typing-extensions
