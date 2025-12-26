@@ -1,6 +1,6 @@
 # 🎮 Confrontation des LLM au Jeu de Nim
 
-![Screenshot du jeu](urlscreenshot.png)
+![Nim](screenshot.png)
 
 ## 📖 À propos
 
