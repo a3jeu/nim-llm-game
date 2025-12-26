@@ -20,6 +20,8 @@ if __name__ == "__main__":
     # Check if there is a env variable server_name
     if os.getenv("SERVER_NAME"):
         server_name = os.getenv("SERVER_NAME")
+        
+    print(f"Starting server on {server_name}:{port}")
     
     load_dotenv(override=True)
     app = make_display()
