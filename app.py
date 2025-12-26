@@ -37,11 +37,10 @@
 WSGI entry point for DirectAdmin / Passenger
 """
 
-from arena.display import make_display
 import gradio as gr
 
-# Création de l'app Gradio
-gradio_app = make_display()
+def hello():
+    return "Hello Gradio"
 
-# IMPORTANT : exposer `app` pour WSGI
-app = gradio_app
+app = gr.Interface(fn=hello, inputs=[], outputs="text")
+
