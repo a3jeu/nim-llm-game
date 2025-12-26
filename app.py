@@ -13,13 +13,17 @@ if __name__ == "__main__":
     # Configuration pour le développement local
     port = int(os.getenv("PORT", 7860))
     
+    local = True
+    
+    server_name = "127.0.0.1" if local else "0.0.0.0"
+    
     load_dotenv(override=True)
     app = make_display()
     app.launch(
         css=css,
         js=js,
         theme=theme,
-        server_name="0.0.0.0",
+        server_name=server_name,
         server_port=port,
         share=False,
         show_error=True,
