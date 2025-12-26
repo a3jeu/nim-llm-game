@@ -19,6 +19,7 @@ if __name__ == "__main__":
     
     # Check if there is a env variable server_name
     if os.getenv("SERVER_NAME"):
+        print("Using SERVER_NAME from environment")
         server_name = os.getenv("SERVER_NAME")
         
     print(f"Starting server on {server_name}:{port}")
