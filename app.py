@@ -17,6 +17,10 @@ if __name__ == "__main__":
     
     server_name = "127.0.0.1" if local else "0.0.0.0"
     
+    # Check if there is a env variable server_name
+    if os.getenv("SERVER_NAME"):
+        server_name = os.getenv("SERVER_NAME")
+    
     load_dotenv(override=True)
     app = make_display()
     app.launch(
