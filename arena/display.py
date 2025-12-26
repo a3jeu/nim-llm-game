@@ -562,7 +562,7 @@ def make_display():
                             label="Classements ELO",
                             column_widths=[3, 1, 2, 2, 2],
                             wrap=True,
-                            column_count=5,
+                            col_count=5, # column_count with gradio 
                             row_count=15,
                             max_height=800,
                             elem_classes=["dataframe-fix"],
@@ -573,7 +573,7 @@ def make_display():
                             label="Historique des parties",
                             column_widths=[2, 2, 2, 2, 1],
                             wrap=True,
-                            column_count=5,
+                            col_count=5, # column_count with gradio 
                             row_count=10,
                             max_height=800,
                             elem_classes=["dataframe-fix"],
