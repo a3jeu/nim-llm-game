@@ -564,7 +564,7 @@ def make_display():
                             wrap=True,
                             col_count=5, # column_count with gradio 
                             row_count=15,
-                            max_height=800,
+                            # max_height=800,
                             elem_classes=["dataframe-fix"],
                         )
                     with gr.Column(scale=1):
@@ -575,7 +575,7 @@ def make_display():
                             wrap=True,
                             col_count=5, # column_count with gradio 
                             row_count=10,
-                            max_height=800,
+                            # max_height=800,
                             elem_classes=["dataframe-fix"],
                         )
                 with gr.Row():
