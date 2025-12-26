@@ -4,7 +4,7 @@ Create a Gradio app and launch it
 """
 
 from arena.display import make_display
-from arena.display import css, js, theme
+from arena.display import theme
 import gradio as gr
 from dotenv import load_dotenv
 import os
@@ -20,8 +20,6 @@ if __name__ == "__main__":
     load_dotenv(override=True)
     app = make_display()
     app.launch(
-        css=css,
-        js=js,
         theme=theme,
         server_name=server_name,
         server_port=port,

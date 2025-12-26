@@ -478,6 +478,8 @@ def make_display():
     """
     with gr.Blocks(
         title="La confrontation des LLM au jeu de Nim.",
+        css=css,
+        js=js,
     ) as blocks:
         game = gr.State()
 
