@@ -12,8 +12,21 @@ const variantSelect = document.getElementById("variant");
 const ratingsBody = document.getElementById("ratings-body");
 const resultsBody = document.getElementById("results-body");
 
+// Variable pour stocker le dernier état
+let lastState = null;
+
 const tabButtons = document.querySelectorAll(".tab-button");
 const tabPanels = document.querySelectorAll(".tab-panel");
+
+const showLoading = (player = null) => {
+  if (player === "red") {
+    messageEl.innerHTML = '<div class="status">🤔 <strong style="color: var(--bs-danger);">Joueur Rouge</strong> réfléchit...</div>';
+  } else if (player === "blue") {
+    messageEl.innerHTML = '<div class="status">🤔 <strong style="color: var(--bs-primary);">Joueur Bleu</strong> réfléchit...</div>';
+  } else {
+    messageEl.innerHTML = '<div class="status">🤔 Réflexion en cours...</div>';
+  }
+};
 
 const apiPost = async (path, payload) => {
   const res = await fetch(path, {
@@ -38,6 +51,9 @@ const setHumanButtons = (validMoves) => {
 };
 
 const applyState = (state) => {
+  // Sauvegarder l'état actuel
+  lastState = state;
+  
   boardEl.innerHTML = state.board_html;
   messageEl.innerHTML = state.message_html;
   redThoughtsEl.innerHTML = state.red_thoughts;
@@ -89,14 +105,57 @@ const loadLeaderboard = async () => {
 
 moveBtn.addEventListener("click", async () => {
   moveBtn.disabled = true;
+  // Utiliser l'état précédent pour savoir qui va jouer
+  if (lastState && lastState.current_player) {
+    showLoading(lastState.current_player);
+  } else {
+    showLoading();
+  }
+  
   const state = await apiPost("/api/move");
   applyState(state);
 });
 
 runBtn.addEventListener("click", async () => {
   runBtn.disabled = true;
-  const state = await apiPost("/api/run");
-  applyState(state);
+  moveBtn.disabled = true;
+  resetBtn.disabled = true;
+  
+  // Récupérer l'état actuel (ne pas réinitialiser)
+  let state = lastState;
+  
+  // Si pas d'état (première partie), initialiser
+  if (!state) {
+    state = await apiPost("/api/init", {
+      red_model: redModel.value,
+      blue_model: blueModel.value,
+      variant: variantSelect.value,
+    });
+    applyState(state);
+  }
+  
+  // Jouer tour par tour avec mise à jour visuelle
+  while (!state.game_over) {
+    // Forcer les boutons à rester désactivés pendant le jeu automatique
+    runBtn.disabled = true;
+    moveBtn.disabled = true;
+    resetBtn.disabled = true;
+    
+    // Afficher qui réfléchit
+    showLoading(state.current_player);
+    
+    await new Promise(resolve => setTimeout(resolve, 500)); // Pause de 500ms entre chaque coup
+    state = await apiPost("/api/move");
+    applyState(state);
+    
+    // Si c'est un joueur humain, on arrête
+    if (state.show_human) {
+      break;
+    }
+  }
+  
+  // Réactiver le bouton reset à la fin
+  resetBtn.disabled = false;
 });
 
 resetBtn.addEventListener("click", async () => {

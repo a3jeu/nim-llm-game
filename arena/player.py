@@ -99,7 +99,15 @@ You must remove a number of sticks from the pile between {legal_moves_str}.
         
         response = self.llm.send(system_prompt, user_prompt)
         
-        self.process_move(response, nim_game)
+        try:
+            self.process_move(response, nim_game)
+        except Exception as e:
+            print(f"Exception during move processing: {e}")
+            # Print Prompts for debugging
+            print("System Prompt:")
+            print(system_prompt)
+            print("User Prompt:")
+            print(user_prompt)
         
     def process_move(self, response, nim_game):
         """

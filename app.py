@@ -14,6 +14,7 @@ from arena.game import Game
 from arena.llm import LLM
 from arena.nim_game import BLUE, RED
 from arena.player import HumanTurnException
+import random
 
 load_dotenv(override=True)
 
@@ -41,11 +42,16 @@ def _set_game(game: Game) -> None:
 
 def _default_models() -> tuple[str, str]:
     models = LLM.all_model_names()
-    if not models:
-        return ("Humain", "Humain")
-    if len(models) == 1:
-        return (models[0], models[0])
-    return (models[0], models[1])
+    # Filtrer les modèles "Humain"
+    non_human_models = [m for m in models if m.lower() != "humain"]
+    
+    if len(non_human_models) < 2:
+        # Pas assez de modèles non-humains disponibles
+        return ("Humain", "Humain") if not non_human_models else (non_human_models[0], non_human_models[0])
+    
+    # Sélectionner deux modèles différents aléatoirement
+    selected = random.sample(non_human_models, 2)
+    return (selected[0], selected[1])
 
 
 def _message_html(game: Game) -> str:
@@ -66,6 +72,10 @@ def _state_payload(game: Game) -> dict:
     dropdowns_enabled = not game.nim_game.game_started()
     can_move = game.nim_game.is_active() and not show_human
     can_run = game.nim_game.is_active() and not show_human
+    
+    # Déterminer le joueur actuel
+    current_player = "red" if game.nim_game.player_to_move == RED else "blue"
+    
     return {
         "board_html": game.display(),
         "message_html": _message_html(game),
@@ -80,6 +90,7 @@ def _state_payload(game: Game) -> dict:
         "red_model": game.players[RED].model,
         "blue_model": game.players[BLUE].model,
         "variant": game.nim_game.variant,
+        "current_player": current_player,
     }
 
 
