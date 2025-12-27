@@ -33,15 +33,10 @@
 #         show_error=True,
 #     )
 
-"""
-WSGI entry point for DirectAdmin / Passenger
-"""
-
 from flask import Flask
 
 app = Flask(__name__)
 
 @app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-
+def home():
+    return "Hello from ai.tommygagne.com 🚀"
