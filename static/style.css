@@ -17,7 +17,7 @@
   --bs-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
     --bs-body-color: #dee2e6;
@@ -36,7 +36,7 @@
     --bs-shadow-sm: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.075);
     --bs-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
   }
-}
+} */
 
 * {
   box-sizing: border-box;
