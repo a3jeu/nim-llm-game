@@ -33,24 +33,15 @@
 #         show_error=True,
 #     )
 
-import sys
-import os
-import gradio as gr
+"""
+WSGI entry point for DirectAdmin / Passenger
+"""
+
 from flask import Flask
 
-# Fix path (important sur Passenger)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, BASE_DIR)
+app = Flask(__name__)
 
-# Flask app (WSGI)
-flask_app = Flask(__name__)
-
-# Gradio app
-def hello():
-    return "Hello Gradio (via Flask + Passenger)"
-
-gradio_app = gr.Interface(fn=hello, inputs=[], outputs="text")
-
-# Monter Gradio dans Flask
-app = gr.mount_gradio_app(flask_app, gradio_app, path="/")
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
 
