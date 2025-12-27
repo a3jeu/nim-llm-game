@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nim LLM Arena</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="hero-title">Nim LLM Arena</div>
+        <div class="hero-subtitle">
+          Head-to-head LLM matches on classic Nim with variants and Elo tracking.
+        </div>
+      </header>
+
+      <nav class="tabs">
+        <button class="tab-button is-active" data-tab="game">Game</button>
+        <button class="tab-button" data-tab="leaderboard">Leaderboard</button>
+      </nav>
+
+      <main>
+        <section id="tab-game" class="tab-panel is-active">
+          <div class="rules">
+            <div class="rules-title">Rules</div>
+            <div class="rules-body">
+              Start with 21 sticks. Players remove sticks in turns. The player who takes
+              the last stick wins.
+            </div>
+            <div class="rules-body">
+              Normal: remove 1 or 2. Variant A: if even, 1/2/4; if odd, 1/3/4. Variant B:
+              remove 1/2/3 and you cannot repeat the previous move.
+            </div>
+          </div>
+
+          <div class="game-grid">
+            <aside class="player-card">
+              <div class="player-title red">Red Player</div>
+              <label class="field">
+                <span>Model</span>
+                <select id="red-model">
+                  {% for model in models %}
+                  <option value="{{ model }}" {% if model == default_red %}selected{% endif %}>
+                    {{ model }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </label>
+              <div class="thoughts" id="red-thoughts"></div>
+            </aside>
+
+            <section class="board-card">
+              <label class="field">
+                <span>Variant</span>
+                <select id="variant">
+                  <option value="normal" {% if default_variant == "normal" %}selected{% endif %}>
+                    Normal
+                  </option>
+                  <option value="a" {% if default_variant == "a" %}selected{% endif %}>
+                    Variant A
+                  </option>
+                  <option value="b" {% if default_variant == "b" %}selected{% endif %}>
+                    Variant B
+                  </option>
+                </select>
+              </label>
+
+              <div class="status-wrap" id="message"></div>
+              <div class="board" id="board"></div>
+
+              <div class="human-row" id="human-row" hidden>
+                <div class="human-title">Choose your move</div>
+                <div class="human-buttons">
+                  <button class="btn btn-human" data-move="1">1</button>
+                  <button class="btn btn-human" data-move="2">2</button>
+                  <button class="btn btn-human" data-move="3">3</button>
+                  <button class="btn btn-human" data-move="4">4</button>
+                </div>
+              </div>
+
+              <div class="controls">
+                <button class="btn" id="move-btn">Next move</button>
+                <button class="btn btn-primary" id="run-btn">Run game</button>
+                <button class="btn btn-ghost" id="reset-btn">Reset</button>
+              </div>
+
+              <div class="repo-link">
+                <a href="https://github.com/a3jeu/nim-llm-game" target="_blank" rel="noreferrer">
+                  View repository
+                </a>
+              </div>
+            </section>
+
+            <aside class="player-card">
+              <div class="player-title blue">Blue Player</div>
+              <label class="field">
+                <span>Model</span>
+                <select id="blue-model">
+                  {% for model in models %}
+                  <option value="{{ model }}" {% if model == default_blue %}selected{% endif %}>
+                    {{ model }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </label>
+              <div class="thoughts" id="blue-thoughts"></div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="tab-leaderboard" class="tab-panel">
+          <div class="leaderboard-grid">
+            <div class="table-card">
+              <div class="table-title">Elo Rankings</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Player</th>
+                    <th>Elo</th>
+                    <th>Normal</th>
+                    <th>Variant A</th>
+                    <th>Variant B</th>
+                  </tr>
+                </thead>
+                <tbody id="ratings-body"></tbody>
+              </table>
+            </div>
+            <div class="table-card">
+              <div class="table-title">Game History</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Variant</th>
+                    <th>Red</th>
+                    <th>Blue</th>
+                    <th>Winner</th>
+                  </tr>
+                </thead>
+                <tbody id="results-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const DEFAULTS = {
+        red: "{{ default_red }}",
+        blue: "{{ default_blue }}",
+        variant: "{{ default_variant }}",
+      };
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
