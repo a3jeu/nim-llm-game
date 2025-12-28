@@ -210,6 +210,7 @@ initGame();
 // Script pour communiquer la hauteur au parent (blog)
 const sendHeightToParent = () => {
   const height = document.documentElement.scrollHeight;
+  console.log("Sending height to parent:", height);
   window.parent.postMessage({ type: 'nim-resize', height }, '*');
 };
 
