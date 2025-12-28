@@ -206,3 +206,25 @@ tabButtons.forEach((button) => {
 });
 
 initGame();
+
+// Script pour communiquer la hauteur au parent (blog)
+const sendHeightToParent = () => {
+  const height = document.documentElement.scrollHeight;
+  window.parent.postMessage({ type: 'nim-resize', height }, '*');
+};
+
+// Envoyer la hauteur initiale
+sendHeightToParent();
+
+// Observer les changements de DOM pour ajuster la hauteur
+const resizeObserver = new ResizeObserver(() => {
+  sendHeightToParent();
+});
+resizeObserver.observe(document.body);
+
+// Envoyer aussi lors des changements d'état
+const originalApplyState = applyState;
+applyState = (state) => {
+  originalApplyState(state);
+  setTimeout(sendHeightToParent, 100); // Petit délai pour que le DOM se mette à jour
+};
