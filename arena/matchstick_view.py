@@ -1,6 +1,6 @@
 MATCHSTICKS_SVG_PATH = "assets/matchstick.svg"
 
-def display_matchsticks_img(n=5, height=140):
+def display_matchsticks_img(n=5, height=75):
     """
     Return HTML for a row of matchstick images.
     """
@@ -34,19 +34,44 @@ def display_matchsticks(n=5, height=80):
     """
     match_svg_inline = load_svg(MATCHSTICKS_SVG_PATH)
     
-    html = "<div style='display: flex; align-items: center;'>"
+    # Déterminer comment répartir les allumettes
+    if n <= 10:
+        lines = [n]
+    else:
+        lines = [10, n - 10]
+    
+    html = "<div style='display: flex; flex-direction: column; gap: 10px;'>"
+    
+    for line_count in lines:
+        html += "<div style='display: flex; align-items: center;'>"
+        
+        for i in range(line_count):
+            gap = height / 7 if (i + 1) % 5 == 0 else 0
 
-    for i in range(n):
-        gap = height / 7 if (i + 1) % 5 == 0 else 0
-
-        html += f"""
-        <div style="
-            height: {height}px;
-            margin-right: {gap}px;
-        ">
-            {match_svg_inline}
-        </div>
-        """
-
+            html += f"""
+            <div style="
+                height: {height}px;
+                margin-right: {gap}px;
+                display: flex;
+                align-items: center;
+            ">
+                <div style="height: 100%; width: auto;">
+                    {match_svg_inline}
+                </div>
+            </div>
+            """
+        
+        html += "</div>"
+    
     html += "</div>"
+    
+    html += """
+    <style>
+        .board svg {
+            height: 100% !important;
+            width: auto !important;
+        }
+    </style>
+    """
+    
     return html
