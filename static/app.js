@@ -207,6 +207,29 @@ tabButtons.forEach((button) => {
 
 initGame();
 
+// // Script pour communiquer la hauteur au parent (blog)
+// const sendHeightToParent = () => {
+//   const height = document.documentElement.scrollHeight;
+//   console.log("Sending height to parent:", height);
+//   window.parent.postMessage({ type: 'nim-resize', height }, '*');
+// };
+
+// // Envoyer la hauteur initiale
+// sendHeightToParent();
+
+// // Observer les changements de DOM pour ajuster la hauteur
+// const resizeObserver = new ResizeObserver(() => {
+//   sendHeightToParent();
+// });
+// resizeObserver.observe(document.body);
+
+// // Envoyer aussi lors des changements d'état
+// const originalApplyState = applyState;
+// applyState = (state) => {
+//   originalApplyState(state);
+//   setTimeout(sendHeightToParent, 100); // Petit délai pour que le DOM se mette à jour
+// };
+
 // Script pour communiquer la hauteur au parent (blog)
 const sendHeightToParent = () => {
   const height = document.documentElement.scrollHeight;
@@ -214,18 +237,12 @@ const sendHeightToParent = () => {
   window.parent.postMessage({ type: 'nim-resize', height }, '*');
 };
 
-// Envoyer la hauteur initiale
+// Envoi initial
 sendHeightToParent();
 
-// Observer les changements de DOM pour ajuster la hauteur
+// Observer les changements du DOM
 const resizeObserver = new ResizeObserver(() => {
   sendHeightToParent();
 });
-resizeObserver.observe(document.body);
 
-// Envoyer aussi lors des changements d'état
-const originalApplyState = applyState;
-applyState = (state) => {
-  originalApplyState(state);
-  setTimeout(sendHeightToParent, 100); // Petit délai pour que le DOM se mette à jour
-};
+resizeObserver.observe(document.body);
