@@ -367,10 +367,15 @@ select:focus {
   margin-bottom: 1rem;
 }
 
+.table-card {
+  overflow-x: auto;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.875rem;
+  min-width: 500px;
 }
 
 thead {
